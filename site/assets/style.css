@@ -19,6 +19,9 @@ body { padding-top: clamp(2rem, 7vw, 4.5rem); }
 .hint { margin: 0 0 .75rem; color: var(--muted); font: .85rem/1.5 var(--mono); }
 
 
+/* The list's last rule already closes the page, so the footer needs none. */
+.colophon { margin-top: 1.25rem; padding-top: 0; border-top: 0; }
+
 @media (max-width: 32rem) {
   .tool-list a { grid-template-columns: minmax(0, 1fr); }
   .tool-list code { grid-row: auto; line-height: 1.5; }

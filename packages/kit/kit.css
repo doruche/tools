@@ -159,6 +159,7 @@ select.term {
   color: var(--muted);
   font: .8rem/1.5 var(--mono);
 }
+.colophon a::before { content: "→ "; }
 
 @media (prefers-reduced-motion: reduce) {
   a { transition: none; }
