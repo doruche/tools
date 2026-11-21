@@ -16,7 +16,7 @@ function page(base: string, title: string, body: string, head = '') {
 </head>
 <body>
 ${body}
-  <footer class="colophon"><a href="https://github.com/doruche/tools">source</a></footer>
+  <footer class="colophon"><span>© 2026 doruche</span><a href="https://github.com/doruche/tools">source</a></footer>
 </body>
 </html>
 `;
