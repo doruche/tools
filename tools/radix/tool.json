@@ -1,0 +1,4 @@
+{
+  "name": "Base converter",
+  "description": "Convert integers of any size between binary, octal, decimal, hex and bases up to 36."
+}

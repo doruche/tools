@@ -1,0 +1,4 @@
+{
+  "name": "UUID generator",
+  "description": "Generate random v4 or time-ordered v7 UUIDs in bulk."
+}

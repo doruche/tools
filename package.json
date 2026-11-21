@@ -1,0 +1,19 @@
+{
+  "name": "doruche-tools",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.16.1",
+  "scripts": {
+    "build": "node scripts/build.ts",
+    "preview": "node scripts/build.ts && node scripts/serve.ts",
+    "check": "tsc --noEmit && node scripts/check.ts"
+  },
+  "dependencies": {
+    "sirv": "^3.0.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
+  }
+}

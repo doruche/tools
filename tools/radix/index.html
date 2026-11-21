@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Base converter · doruche's tools</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230f766e'/%3E%3Cpath d='M9 11l5 5-5 5M16 22h7' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="back" href="../">← All tools</a>
+  <header>
+    <h1>Base converter</h1>
+    <p>Type in any field and the others follow. Spaces, underscores and 0b/0o/0x prefixes are fine.</p>
+  </header>
+  <main>
+    <form class="rows" id="rows" autocomplete="off" spellcheck="false">
+      <div class="row" data-base="2">
+        <label for="base-2">Binary</label>
+        <input id="base-2" inputmode="numeric" aria-describedby="error-2">
+        <button type="button" class="copy" aria-label="Copy binary">Copy</button>
+        <p class="error" id="error-2" role="alert"></p>
+      </div>
+      <div class="row" data-base="8">
+        <label for="base-8">Octal</label>
+        <input id="base-8" inputmode="numeric" aria-describedby="error-8">
+        <button type="button" class="copy" aria-label="Copy octal">Copy</button>
+        <p class="error" id="error-8" role="alert"></p>
+      </div>
+      <div class="row" data-base="10">
+        <label for="base-10">Decimal</label>
+        <input id="base-10" inputmode="numeric" aria-describedby="error-10">
+        <button type="button" class="copy" aria-label="Copy decimal">Copy</button>
+        <p class="error" id="error-10" role="alert"></p>
+      </div>
+      <div class="row" data-base="16">
+        <label for="base-16">Hex</label>
+        <input id="base-16" aria-describedby="error-16">
+        <button type="button" class="copy" aria-label="Copy hex">Copy</button>
+        <p class="error" id="error-16" role="alert"></p>
+      </div>
+      <div class="row" data-base="36" id="custom-row">
+        <span class="label-cell">
+          <label for="base-custom">Base</label>
+          <select id="custom-base" aria-label="Custom base"></select>
+        </span>
+        <input id="base-custom" aria-describedby="error-custom">
+        <button type="button" class="copy" aria-label="Copy custom base">Copy</button>
+        <p class="error" id="error-custom" role="alert"></p>
+      </div>
+    </form>
+    <div class="footer-bar">
+      <label class="toggle"><input type="checkbox" id="uppercase"> Uppercase letters</label>
+      <output id="size" aria-live="polite"></output>
+    </div>
+  </main>
+</body>
+</html>
