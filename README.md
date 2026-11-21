@@ -8,11 +8,10 @@ Use Node 26 and the pnpm version in `package.json`.
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm run check     # type checks and every tool's tests
-pnpm run preview   # build into public/ and serve it at http://127.0.0.1:4100/
+pnpm run check   # type checks and every tool's tests
+pnpm run dev     # serve the site at http://127.0.0.1:4100/ and rebuild on every change
+pnpm run build   # build the site into public/
 ```
-
-A tool with its own dev server, such as `uuid`, can also be run directly: `pnpm --filter @doruche-tools/uuid dev`.
 
 ## Adding a tool
 
@@ -27,10 +26,19 @@ Create `tools/<tool>/`. The folder name becomes the URL, so use lowercase letter
 
 A tool then takes one of two forms:
 
-- **No build step.** Everything in the folder is published as is, except `tool.json` and `test/`. Tests in `test/` run with `node --test`. See `tools/radix`.
+- **No build step.** Everything in the folder is published as is, except `tool.json`, `test/`, `package.json`, `tsconfig.json`, `README.md` and `node_modules/`. Tests in `test/` run with `node --test`. See `tools/radix`.
 - **Its own build.** Add a `package.json` with a `build` script that writes the tool to `dist/`, and optionally a `check` script. The tool keeps its own dependencies, so tools never have to share a toolchain. See `tools/uuid`, which uses Vite and TypeScript.
 
-Either way, the published tool needs an `index.html` and must use relative paths, because it is served from `/<tool>/`. Tools are independent: none of them should depend on the home page or on another tool. `pnpm run build` stops with an error if a tool breaks these rules.
+Either way, the published tool needs an `index.html` and must use relative paths, because it is served from `/<tool>/`. Tools are independent: none of them should depend on the home page or on another tool. `pnpm run build` stops with an error if a tool breaks these rules, including when its HTML refers to a file that is not in the published site.
+
+## Shared kit
+
+`packages/kit` holds an optional shared look: colours, command-line styled controls (`.term`, `.flag`, `.check`, `.choice`, `.cmd`, `.log`, `.lines`), a favicon and a `bindCopy` helper. It is published at `/kit/`.
+
+- A tool without a build step links it with relative paths, such as `../kit/kit.css` and `../kit/copy.js`.
+- A tool with a build step depends on `@doruche-tools/kit` and bundles it, so it does not rely on `/kit/` at all.
+
+The home page and the 404 page live in `site/`.
 
 ## Deployment
 

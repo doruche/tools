@@ -1,0 +1,11 @@
+{
+  "name": "@doruche-tools/kit",
+  "private": true,
+  "description": "Optional shared look for tools: command-line styled controls, colours and favicon.",
+  "type": "module",
+  "exports": {
+    "./kit.css": "./kit.css",
+    "./copy.js": "./copy.js",
+    "./favicon.svg": "./favicon.svg"
+  }
+}

@@ -10,7 +10,7 @@ const manifestSchema = z.strictObject({
 
 const idPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 // Top-level paths the site itself uses, so a tool cannot take them.
-const reserved = new Set(['site']);
+const reserved = new Set(['site', 'kit']);
 
 export type Tool = {
   id: string;

@@ -1,12 +1,15 @@
 import { execFileSync } from 'node:child_process';
 import { chmodSync, cpSync, existsSync, mkdtempSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
-import { renderIndex } from '../site/index.ts';
+import { renderIndex, renderNotFound } from '../site/pages.ts';
+import { brokenLinks } from './links.ts';
 import { readTools, type Tool } from './tools.ts';
 
-const siteAssets = join(import.meta.dirname, '../site/assets');
-// Top-level entries of a tool without a build step that are not published.
-const sourceOnly = new Set(['tool.json', 'test', 'node_modules']);
+const repository = join(import.meta.dirname, '..');
+// Folders published at the top level: the home page's own assets and the shared kit.
+const shared = { site: join(repository, 'site/assets'), kit: join(repository, 'packages/kit') };
+// Top-level entries of a tool without a build step that are never published.
+const sourceOnly = new Set(['tool.json', 'test', 'node_modules', 'package.json', 'tsconfig.json', 'README.md']);
 
 /** Returns the folder whose contents are published at /<tool id>/. */
 function produce(tool: Tool) {
@@ -30,8 +33,17 @@ export function build(output = 'public') {
       if (!existsSync(join(from, 'index.html'))) throw new Error(`${tool.dir}: the published tool needs an index.html`);
       cpSync(from, join(staging, tool.id), { recursive: true, filter: path => path === from || filter(path) });
     }
-    cpSync(siteAssets, join(staging, 'site'), { recursive: true });
+    cpSync(shared.site, join(staging, 'site'), { recursive: true });
+    cpSync(shared.kit, join(staging, 'kit'), { recursive: true, filter: path => basename(path) !== 'package.json' });
     writeFileSync(join(staging, 'index.html'), renderIndex(tools));
+    writeFileSync(join(staging, '404.html'), renderNotFound(tools));
+
+    const problems = [
+      ...tools.flatMap(tool => brokenLinks(staging, join(staging, tool.id), { relativeOnly: true })),
+      ...['index.html', '404.html'].flatMap(page => brokenLinks(staging, join(staging, page), { relativeOnly: false })),
+    ];
+    if (problems.length) throw new Error(`Broken links in the built site:\n  ${problems.join('\n  ')}`);
+
     chmodSync(staging, 0o755);
     rmSync(output, { recursive: true, force: true });
     renameSync(staging, output);

@@ -1,0 +1,152 @@
+/*
+ * Shared look for doruche's tools: a quiet page with command-line styled
+ * controls. Prose stays in the sans face; every control, value and message
+ * uses the monospace face.
+ */
+:root {
+  color-scheme: light dark;
+  --bg: #f5f6f4;
+  --fg: #17191c;
+  --muted: #5d636b;
+  --line: #d8dbd6;
+  --accent: #0f766e;
+  --on-accent: #ffffff;
+  --danger: #b42318;
+  --sans: system-ui, -apple-system, "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font: 1rem/1.6 var(--sans);
+  color: var(--fg);
+  background: var(--bg);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111315;
+    --fg: #e3e6e9;
+    --muted: #959ca4;
+    --line: #2c3135;
+    --accent: #4fd1c0;
+    --on-accent: #0b1f1d;
+    --danger: #ff8a80;
+  }
+}
+
+body {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 5vw, 3rem) clamp(1.25rem, 5vw, 2rem) 3rem;
+}
+::selection { background: var(--accent); color: var(--on-accent); }
+a { color: inherit; text-decoration: none; transition: color 120ms; }
+a:is(:hover, :focus-visible) { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+code { font: .92em var(--mono); }
+
+/* Page header: the page as a command, then a plain description. Tools add `cd ..` above it. */
+.back { color: var(--muted); font: .85rem/1.5 var(--mono); }
+.back::before { content: "cd "; }
+.page-header { margin: 1.25rem 0 2rem; }
+.page-header h1 { margin: 0; font: 600 1.6rem/1.3 var(--mono); letter-spacing: -.01em; }
+.page-header h1::before { content: "$ "; color: var(--accent); }
+.page-header p { margin: .5rem 0 0; color: var(--muted); }
+.page-header p strong { color: var(--fg); font-weight: 600; }
+
+/* Controls */
+input, select, button, textarea { font: inherit; color: inherit; }
+.term {
+  width: 100%;
+  box-sizing: border-box;
+  padding: .45rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  font: 1rem/1.4 var(--mono);
+  caret-color: var(--accent);
+}
+.term:focus-visible { outline: 0; border-bottom-color: var(--accent); box-shadow: 0 1px 0 var(--accent); }
+.term[aria-invalid="true"] { border-bottom-color: var(--danger); box-shadow: 0 1px 0 var(--danger); }
+.term::placeholder { color: var(--muted); opacity: .7; }
+
+select.term {
+  width: auto;
+  appearance: none;
+  padding-right: 1.1em;
+  cursor: pointer;
+}
+.select { position: relative; display: inline-block; }
+.select::after { content: "▾"; position: absolute; right: 0; top: 50%; translate: 0 -50%; color: var(--muted); pointer-events: none; font: .8rem var(--mono); }
+
+/* Flags written like command-line options, e.g. --hex */
+.flag { color: var(--muted); font: .9rem/1.4 var(--mono); white-space: nowrap; }
+
+/* [x] checkboxes and (•) radios; the native inputs stay for keyboards and screen readers. */
+.check, .choice {
+  display: inline-flex;
+  align-items: center;
+  gap: .5ch;
+  font: .9rem/1.4 var(--mono);
+  cursor: pointer;
+}
+.check input, .choice input {
+  appearance: none;
+  margin: 0;
+  font: inherit;
+  color: var(--muted);
+  cursor: pointer;
+}
+.check input::before { content: "[ ]"; }
+.check input:checked::before { content: "[x]"; color: var(--accent); }
+.choice input::before { content: "( )"; }
+.choice input:checked::before { content: "(•)"; color: var(--accent); }
+.check input:focus-visible, .choice input:focus-visible { outline-offset: 1px; }
+.check:has(:checked), .choice:has(:checked) { color: var(--fg); }
+.check:not(:has(:checked)), .choice:not(:has(:checked)) { color: var(--muted); }
+
+/* [copy] text buttons, and one filled primary action per tool. */
+.cmd {
+  padding: .3rem .1rem;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: .9rem/1.4 var(--mono);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.cmd::before { content: "["; }
+.cmd::after { content: "]"; }
+.cmd:is(:hover, :focus-visible) { color: var(--accent); }
+.cmd.primary { padding: .35rem .8rem; background: var(--accent); color: var(--on-accent); }
+.cmd.primary::before, .cmd.primary::after { content: none; }
+.cmd.primary:is(:hover, :focus-visible) { color: var(--on-accent); filter: brightness(1.08); }
+
+/* Output lines, written the way a terminal would report them. */
+.log { margin: 0; color: var(--muted); font: .85rem/1.5 var(--mono); }
+.log:empty { display: none; }
+.log.error { color: var(--danger); }
+.log.error:not(:empty)::before { content: "error: "; }
+.log.ok:not(:empty)::before { content: "✓ "; color: var(--accent); }
+
+/* Numbered output block; numbers are drawn by CSS so copying skips them. */
+.lines {
+  margin: 0;
+  padding: .75rem 0;
+  border-left: 2px solid var(--accent);
+  list-style: none;
+  counter-reset: line;
+  font: .95rem/1.75 var(--mono);
+  overflow-x: auto;
+}
+.lines li { counter-increment: line; white-space: pre; padding-right: 1rem; }
+.lines li::before {
+  content: counter(line);
+  display: inline-block;
+  width: 4ch;
+  margin-right: 1.5ch;
+  color: var(--muted);
+  text-align: right;
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a { transition: none; }
+}

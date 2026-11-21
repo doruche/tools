@@ -4,31 +4,35 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>UUID generator · doruche's tools</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230f766e'/%3E%3Cpath d='M9 11l5 5-5 5M16 22h7' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="icon" href="../kit/favicon.svg">
   <script type="module" src="./src/main.ts"></script>
 </head>
 <body>
-  <a class="back" href="../">← All tools</a>
-  <header>
-    <h1>UUID generator</h1>
-    <p>Generated in your browser with <code>crypto.getRandomValues</code>.</p>
+  <a class="back" href="../">..</a>
+  <header class="page-header">
+    <h1>uuid</h1>
+    <p><strong>UUID generator.</strong> Made in your browser with <code>crypto.getRandomValues</code>.</p>
   </header>
   <main>
-    <form class="controls" id="controls" autocomplete="off">
-      <fieldset class="versions">
-        <legend>Version</legend>
-        <label><input type="radio" name="version" value="4" checked> v4 <small>random</small></label>
-        <label><input type="radio" name="version" value="7"> v7 <small>time-ordered</small></label>
+    <form class="options" id="options" autocomplete="off">
+      <fieldset class="option">
+        <legend class="flag">--version</legend>
+        <label class="choice"><input type="radio" name="version" value="4" checked> v4 <small>random</small></label>
+        <label class="choice"><input type="radio" name="version" value="7"> v7 <small>time-ordered</small></label>
       </fieldset>
-      <label class="count">Count <input type="number" name="count" min="1" max="1000" value="10" required></label>
-      <label class="toggle"><input type="checkbox" name="uppercase"> Uppercase</label>
-      <label class="toggle"><input type="checkbox" name="hyphens" checked> Hyphens</label>
+      <div class="option">
+        <label class="flag" for="count">--count</label>
+        <input class="term count" id="count" type="number" name="count" min="1" max="1000" value="10" required>
+      </div>
+      <div class="option">
+        <label class="check"><input type="checkbox" name="uppercase"> uppercase</label>
+        <label class="check"><input type="checkbox" name="hyphens" checked> hyphens</label>
+      </div>
     </form>
-    <textarea id="output" readonly rows="10" wrap="off" aria-label="Generated UUIDs" spellcheck="false"></textarea>
+    <ol class="lines" id="output" aria-label="Generated UUIDs"></ol>
     <div class="actions">
-      <button type="button" id="generate" class="primary">Generate again</button>
-      <button type="button" id="copy">Copy all</button>
-      <output id="status" aria-live="polite"></output>
+      <button type="button" class="cmd primary" id="generate">generate</button>
+      <button type="button" class="cmd" id="copy">copy all</button>
     </div>
   </main>
 </body>

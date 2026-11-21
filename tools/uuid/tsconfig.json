@@ -6,8 +6,19 @@
     "noEmit": true,
     "erasableSyntaxOnly": true,
     "allowImportingTsExtensions": true,
-    "lib": ["esnext", "dom"],
-    "types": ["node", "vite/client"]
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "types": [
+      "node",
+      "vite/client"
+    ],
+    "allowJs": true
   },
-  "include": ["src", "test", "vite.config.ts"]
+  "include": [
+    "src",
+    "test",
+    "vite.config.ts"
+  ]
 }

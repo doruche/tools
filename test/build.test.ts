@@ -19,7 +19,10 @@ test('publishes plain and built tools and keeps the last good build', t => {
   const manifest = (name: string) => JSON.stringify({ name, description: `${name} <does> things` });
 
   write(join(root, 'tools/plain/tool.json'), manifest('Plain'));
-  write(join(root, 'tools/plain/index.html'), 'plain');
+  write(join(root, 'tools/plain/index.html'), '<link href="../kit/kit.css"><script src="app.js"></script><a href="../">up</a>');
+  write(join(root, 'tools/plain/app.js'), '');
+  write(join(root, 'tools/plain/README.md'), 'notes');
+  write(join(root, 'tools/plain/package.json'), JSON.stringify({ scripts: { check: 'node --test' } }));
   write(join(root, 'tools/plain/assets/test/kept.txt'), 'nested test folders are published');
   write(join(root, 'tools/plain/test/plain.test.js'), '');
   write(join(root, 'tools/built/tool.json'), manifest('Built'));
@@ -29,10 +32,12 @@ test('publishes plain and built tools and keeps the last good build', t => {
   build();
 
   const out = join(root, 'public');
-  assert.equal(readFileSync(join(out, 'plain/index.html'), 'utf8'), 'plain');
+  const plain = readFileSync(join(out, 'plain/index.html'), 'utf8');
   assert.ok(existsSync(join(out, 'plain/assets/test/kept.txt')));
-  assert.ok(!existsSync(join(out, 'plain/tool.json')));
-  assert.ok(!existsSync(join(out, 'plain/test')));
+  for (const file of ['tool.json', 'test', 'README.md', 'package.json']) assert.ok(!existsSync(join(out, 'plain', file)), file);
+  assert.ok(existsSync(join(out, 'kit/kit.css')));
+  assert.ok(!existsSync(join(out, 'kit/package.json')));
+  assert.match(readFileSync(join(out, '404.html'), 'utf8'), /href="\/plain\/"/);
   assert.equal(readFileSync(join(out, 'built/index.html'), 'utf8'), 'built');
   assert.ok(!existsSync(join(out, 'built/make.js')));
   assert.ok(existsSync(join(out, 'site/style.css')));
@@ -43,7 +48,7 @@ test('publishes plain and built tools and keeps the last good build', t => {
   const broken = (setup: () => void, message: RegExp, undo: () => void) => {
     setup();
     assert.throws(build, message);
-    assert.equal(readFileSync(join(out, 'plain/index.html'), 'utf8'), 'plain');
+    assert.equal(readFileSync(join(out, 'plain/index.html'), 'utf8'), plain);
     undo();
   };
   broken(() => write(join(root, 'tools/Bad_Name/tool.json'), manifest('Bad')), /lowercase letters, digits and hyphens/,
@@ -54,6 +59,13 @@ test('publishes plain and built tools and keeps the last good build', t => {
     () => rmSync(join(root, 'tools/empty'), { recursive: true }));
   broken(() => write(join(root, 'tools/plain/tool.json'), '{"name": "Plain"}'), /tool\.json[\s\S]*description/,
     () => write(join(root, 'tools/plain/tool.json'), manifest('Plain')));
+  broken(() => write(join(root, 'tools/kit/tool.json'), manifest('Kit')), /\/kit\/ is used by the site/,
+    () => rmSync(join(root, 'tools/kit'), { recursive: true }));
+  broken(() => write(join(root, 'tools/plain/index.html'), plain + '<script src="/app.js"></script>'),
+    /plain\/index\.html: "\/app\.js" must be a relative path/,
+    () => write(join(root, 'tools/plain/index.html'), plain));
+  broken(() => rmSync(join(root, 'tools/plain/app.js')), /plain\/index\.html: "app\.js" does not exist/,
+    () => write(join(root, 'tools/plain/app.js'), ''));
   broken(() => write(join(root, 'tools/built/make.js'), ''), /its build script must write the tool to dist\//,
     () => {});
 });

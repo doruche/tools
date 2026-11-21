@@ -1,7 +1,8 @@
+import { bindCopy } from '../kit/copy.js';
 import { format, parse } from './convert.js';
 
-const rows = [...document.querySelectorAll('.row')];
-const customRow = document.getElementById('custom-row');
+const rows = [...document.querySelectorAll('.field')];
+const customRow = document.getElementById('custom-field');
 const customBase = document.getElementById('custom-base');
 const uppercase = document.getElementById('uppercase');
 const size = document.getElementById('size');
@@ -17,7 +18,7 @@ const inputOf = row => row.querySelector('input');
 
 function setError(row, message) {
   inputOf(row).setAttribute('aria-invalid', String(Boolean(message)));
-  row.querySelector('.error').textContent = message;
+  row.querySelector('.log').textContent = message;
 }
 
 function render(except) {
@@ -45,14 +46,7 @@ for (const row of rows) {
       setError(row, error.message);
     }
   });
-  row.querySelector('.copy').addEventListener('click', async event => {
-    const button = event.currentTarget;
-    const value = inputOf(row).value;
-    if (!value) return;
-    await navigator.clipboard.writeText(value);
-    button.textContent = 'Copied';
-    setTimeout(() => { button.textContent = 'Copy'; }, 1200);
-  });
+  bindCopy(row.querySelector('.cmd'), () => inputOf(row).value);
 }
 
 customBase.addEventListener('change', () => {

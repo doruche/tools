@@ -1,9 +1,10 @@
+import '@doruche-tools/kit/kit.css';
 import './style.css';
+import { bindCopy } from '@doruche-tools/kit/copy.js';
 import { createUuidV7, formatUuid, uuidV4 } from './uuid.ts';
 
-const form = document.querySelector<HTMLFormElement>('#controls')!;
-const output = document.querySelector<HTMLTextAreaElement>('#output')!;
-const status = document.querySelector<HTMLOutputElement>('#status')!;
+const form = document.querySelector<HTMLFormElement>('#options')!;
+const output = document.querySelector<HTMLOListElement>('#output')!;
 const nextV7 = createUuidV7();
 
 /** Raw UUIDs, kept so format options apply without generating new ones. */
@@ -11,20 +12,21 @@ let ids: string[] = [];
 
 function options() {
   const data = new FormData(form);
-  const count = Math.min(1000, Math.max(1, Math.trunc(Number(data.get('count'))) || 1));
   return {
     version: data.get('version') === '7' ? 7 : 4,
-    count,
+    count: Math.min(1000, Math.max(1, Math.trunc(Number(data.get('count'))) || 1)),
     uppercase: data.has('uppercase'),
     hyphens: data.has('hyphens'),
   };
 }
 
-function show() {
+function formatted() {
   const { uppercase, hyphens } = options();
-  output.value = ids.map(id => formatUuid(id, { uppercase, hyphens })).join('\n');
-  output.rows = Math.min(Math.max(ids.length, 3), 16);
-  status.value = '';
+  return ids.map(id => formatUuid(id, { uppercase, hyphens }));
+}
+
+function show() {
+  output.replaceChildren(...formatted().map(text => Object.assign(document.createElement('li'), { textContent: text })));
 }
 
 function generate() {
@@ -43,9 +45,6 @@ form.addEventListener('submit', event => {
   generate();
 });
 document.querySelector('#generate')!.addEventListener('click', generate);
-document.querySelector('#copy')!.addEventListener('click', async () => {
-  await navigator.clipboard.writeText(output.value);
-  status.value = `Copied ${ids.length} UUID${ids.length === 1 ? '' : 's'}`;
-});
+bindCopy(document.querySelector<HTMLButtonElement>('#copy')!, () => formatted().join('\n'));
 
 generate();
