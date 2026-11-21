@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR decoder · doruche's tools</title>
+  <link rel="icon" href="../kit/favicon.svg">
+  <script type="module" src="./src/main.ts"></script>
+</head>
+<body>
+  <a class="back" href="../">..</a>
+  <header class="page-header">
+    <h1>qr</h1>
+    <p><strong>QR decoder.</strong> Drop, paste or choose an image. It never leaves your browser.</p>
+  </header>
+  <main>
+    <input type="file" id="file" accept="image/*" hidden>
+
+    <section class="dropzone" id="dropzone">
+      <p class="idle">drop an image here · paste with <kbd id="paste-key">Ctrl+V</kbd> · <button type="button" class="cmd" data-choose>choose file</button></p>
+      <p class="over">release to decode</p>
+    </section>
+
+    <section class="result" id="result" hidden>
+      <div class="file-line">
+        <p class="log" id="file-info"></p>
+        <span class="file-actions">
+          <button type="button" class="cmd" data-choose>choose file</button>
+          <button type="button" class="cmd" id="clear">clear</button>
+        </span>
+      </div>
+      <figure class="preview">
+        <canvas id="canvas"></canvas>
+        <svg id="boxes" preserveAspectRatio="none" aria-hidden="true"></svg>
+        <div id="labels" aria-hidden="true"></div>
+      </figure>
+      <ol class="lines codes" id="codes" aria-label="Decoded QR codes"></ol>
+    </section>
+
+    <p class="log" id="status" aria-live="polite"></p>
+  </main>
+</body>
+</html>

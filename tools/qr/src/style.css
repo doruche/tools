@@ -1,0 +1,66 @@
+/* Layout for the QR decoder; controls are styled by the kit. */
+kbd { font: inherit; color: var(--fg); }
+
+.dropzone {
+  padding: 2.75rem 1rem;
+  border: 1px dashed var(--line);
+  color: var(--muted);
+  font: .9rem/1.6 var(--mono);
+  text-align: center;
+  transition: border-color 120ms, color 120ms;
+}
+.dropzone p { margin: 0; }
+.dropzone .over { display: none; }
+.dropzone.dragging { border-color: var(--accent); color: var(--fg); }
+.dropzone.dragging .idle { display: none; }
+.dropzone.dragging .over { display: block; }
+body.dragging .result { outline: 1px dashed var(--accent); outline-offset: .75rem; }
+
+/* `file`-style line above the image: > name.png: PNG, 1080 × 1080, 84 KB */
+.file-line { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .25rem 1rem; margin-bottom: .6rem; }
+.file-line .log { color: var(--fg); overflow-wrap: anywhere; }
+.file-line .log::before { content: "> "; color: var(--accent); }
+.file-actions { display: flex; gap: 1rem; }
+
+/* The image shows as inline output: square frame, checkerboard behind transparency. */
+.preview { position: relative; display: inline-block; max-width: 100%; margin: 0 0 1rem; vertical-align: top; }
+.preview canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 24rem;
+  border: 1px solid var(--line);
+  background: repeating-conic-gradient(color-mix(in srgb, var(--line) 55%, transparent) 0 25%, transparent 0 50%) 0 0 / 16px 16px;
+}
+.preview svg { position: absolute; inset: 1px; width: calc(100% - 2px); height: calc(100% - 2px); overflow: visible; }
+.preview polygon {
+  fill: color-mix(in srgb, var(--accent) 14%, transparent);
+  stroke: var(--accent);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+.preview polygon.active { fill: color-mix(in srgb, var(--accent) 32%, transparent); stroke-width: 3; }
+#labels { position: absolute; inset: 1px; pointer-events: none; }
+#labels span {
+  position: absolute;
+  translate: -1px -100%;
+  padding: 0 .35em;
+  background: var(--accent);
+  color: var(--on-accent);
+  font: 600 .75rem/1.4 var(--mono);
+}
+#labels span.active { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.codes li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: baseline; column-gap: 1rem; white-space: normal; }
+.codes .text { white-space: pre-wrap; overflow-wrap: anywhere; }
+.codes .actions { display: flex; gap: 1rem; }
+.codes:empty { display: none; }
+
+#status { margin-top: .9rem; }
+
+@media (max-width: 32rem) {
+  .codes li { grid-template-columns: auto minmax(0, 1fr); }
+  .codes .actions { grid-column: 2; margin-bottom: .35rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dropzone { transition: none; }
+}

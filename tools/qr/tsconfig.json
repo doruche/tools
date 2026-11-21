@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "nodenext",
+    "strict": true,
+    "noEmit": true,
+    "erasableSyntaxOnly": true,
+    "allowImportingTsExtensions": true,
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "types": [
+      "node",
+      "vite/client",
+      "emscripten"
+    ],
+    "allowJs": true
+  },
+  "include": [
+    "src",
+    "test",
+    "vite.config.ts"
+  ]
+}
