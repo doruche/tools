@@ -1,5 +1,5 @@
 {
-  "name": "@doruche-tools/media",
+  "name": "@doruche-tools/media-converter",
   "private": true,
   "type": "module",
   "scripts": {

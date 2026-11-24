@@ -15,7 +15,7 @@ pnpm run build   # build the site into public/
 
 ## Adding a tool
 
-Create `tools/<tool>/`. The folder name becomes the URL, so use lowercase letters, digits and hyphens. Every tool needs a `tool.json`:
+Create `tools/<tool>/`. The folder name becomes the URL, so use lowercase letters, digits and hyphens. Name a tool after its subject when it covers all of it, such as `qr`, and after its subject and job when it does one thing in a large subject, such as `media-converter`. Every tool needs a `tool.json`:
 
 ```json
 {

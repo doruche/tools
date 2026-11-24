@@ -185,7 +185,7 @@ importers:
 
   packages/kit: {}
 
-  tools/media:
+  tools/media-converter:
     dependencies:
       '@doruche-tools/kit':
         specifier: workspace:*
