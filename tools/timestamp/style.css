@@ -1,0 +1,23 @@
+/* Layout for the timestamp converter; controls are styled by ../kit/kit.css. */
+.input-line { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 1rem; }
+#read-as { min-height: 1.3rem; margin-top: .3rem; }
+#read-as:empty { display: block; }
+
+.zone { display: grid; grid-template-columns: 6ch minmax(0, 20rem); align-items: center; column-gap: 1rem; margin-top: 1rem; }
+.zone .log { grid-column: 2; margin-top: .3rem; }
+
+/* Every notation of the instant, one per line, like a command's output. */
+.formats { margin: 2rem 0 0; padding: .6rem 0 .6rem 1rem; border-left: 2px solid var(--accent); font: .95rem/1.9 var(--mono); }
+.formats[hidden] { display: none; }
+.formats div { display: grid; grid-template-columns: 9ch minmax(0, 1fr) auto; align-items: baseline; column-gap: 1.5ch; }
+.formats dt { color: var(--muted); }
+.formats dd { margin: 0; overflow-wrap: anywhere; }
+.formats .cmd { padding-block: 0; }
+
+@media (max-width: 32rem) {
+  .formats { font-size: .85rem; }
+  .formats div { grid-template-columns: minmax(0, 1fr) auto; }
+  .formats dt { grid-column: 1 / -1; margin-top: .3rem; line-height: 1.4; }
+  /* A value never breaks at its hyphens; one too long for the screen scrolls instead. */
+  .formats dd { white-space: nowrap; overflow-x: auto; overflow-wrap: normal; }
+}

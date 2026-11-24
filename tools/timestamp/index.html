@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Timestamp converter · doruche's tools</title>
+  <link rel="icon" href="../kit/favicon.svg">
+  <link rel="stylesheet" href="../kit/kit.css">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="back" href="../">..</a>
+  <header class="page-header">
+    <h1>timestamp</h1>
+    <p><strong>Timestamp converter.</strong> Paste a unix timestamp in any unit, an ISO 8601 or RFC 2822 date, or a plain date and time.</p>
+  </header>
+  <main>
+    <form class="query" autocomplete="off" spellcheck="false">
+      <div class="input-line">
+        <input class="term" id="input" aria-label="Time to convert" aria-describedby="read-as">
+        <button type="button" class="cmd" id="now">now</button>
+      </div>
+      <p class="log" id="read-as" role="status"></p>
+      <div class="zone">
+        <label class="flag" for="zone">--tz</label>
+        <input class="term" id="zone" list="zones" aria-describedby="zone-error">
+        <datalist id="zones"></datalist>
+        <p class="log error" id="zone-error" role="alert"></p>
+      </div>
+    </form>
+
+    <dl class="formats" id="formats">
+      <div data-key="unix"><dt>unix</dt><dd></dd><button type="button" class="cmd" aria-label="Copy unix seconds">copy</button></div>
+      <div data-key="unixMs"><dt>unix ms</dt><dd></dd><button type="button" class="cmd" aria-label="Copy unix milliseconds">copy</button></div>
+      <div data-key="utc"><dt>utc</dt><dd></dd><button type="button" class="cmd" aria-label="Copy UTC time">copy</button></div>
+      <div data-key="zoned"><dt>zoned</dt><dd></dd><button type="button" class="cmd" aria-label="Copy time with offset">copy</button></div>
+      <div data-key="rfc2822"><dt>rfc 2822</dt><dd></dd><button type="button" class="cmd" aria-label="Copy RFC 2822 date">copy</button></div>
+      <div data-key="relative"><dt>relative</dt><dd></dd></div>
+      <div data-key="calendar"><dt>calendar</dt><dd></dd></div>
+    </dl>
+  </main>
+  <footer class="colophon"><span>© 2026 doruche</span><a href="https://github.com/doruche/tools/tree/main/tools/timestamp">source</a></footer>
+</body>
+</html>

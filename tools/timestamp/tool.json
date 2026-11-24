@@ -1,0 +1,4 @@
+{
+  "name": "Timestamp converter",
+  "description": "Convert between unix timestamps, ISO 8601, RFC 2822 and time zones."
+}
