@@ -1,6 +1,7 @@
 import '@doruche-tools/kit/kit.css';
 import './style.css';
 import { bindCopy } from '@doruche-tools/kit/copy.js';
+import { bindDrop } from '@doruche-tools/kit/drop.js';
 import wasmUrl from 'zxing-wasm/reader/zxing_reader.wasm?url';
 import type { Code } from './decode.ts';
 
@@ -123,35 +124,11 @@ function clear() {
   dropzone.hidden = false;
   showCodes([]);
   report('');
-  fileInput.value = '';
 }
 
 // Choosing, dropping and pasting all lead to open().
-for (const button of document.querySelectorAll('[data-choose]')) button.addEventListener('click', () => fileInput.click());
-fileInput.addEventListener('change', () => { if (fileInput.files?.[0]) open(fileInput.files[0]); });
+bindDrop({ zone: dropzone, input: fileInput, onFile: open });
 $('#clear').addEventListener('click', clear);
-
-let depth = 0;
-document.addEventListener('dragenter', event => {
-  if (!event.dataTransfer?.types.includes('Files')) return;
-  depth++;
-  dropzone.classList.add('dragging');
-  document.body.classList.add('dragging');
-});
-document.addEventListener('dragleave', () => {
-  if (--depth > 0) return;
-  dropzone.classList.remove('dragging');
-  document.body.classList.remove('dragging');
-});
-document.addEventListener('dragover', event => event.preventDefault());
-document.addEventListener('drop', event => {
-  event.preventDefault();
-  depth = 0;
-  dropzone.classList.remove('dragging');
-  document.body.classList.remove('dragging');
-  const file = event.dataTransfer?.files[0];
-  if (file) open(file);
-});
 document.addEventListener('paste', event => {
   const item = [...(event.clipboardData?.items ?? [])].find(entry => entry.type.startsWith('image/'));
   const file = item?.getAsFile();

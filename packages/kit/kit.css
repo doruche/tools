@@ -118,6 +118,32 @@ select.term {
 .cmd.primary { padding: .35rem .8rem; background: var(--accent); color: var(--on-accent); }
 .cmd.primary::before, .cmd.primary::after { content: none; }
 .cmd.primary:is(:hover, :focus-visible) { color: var(--on-accent); filter: brightness(1.08); }
+:is(.cmd, .term, .check input, .choice input):disabled { opacity: .45; cursor: not-allowed; }
+:is(.cmd, .term):disabled:hover { color: var(--muted); }
+
+/* Drop zone for tools that open a file; drop.js toggles `dragging` on it and on <body>. */
+.dropzone {
+  padding: 2.75rem 1rem;
+  border: 1px dashed var(--line);
+  color: var(--muted);
+  font: .9rem/1.6 var(--mono);
+  text-align: center;
+  transition: border-color 120ms, color 120ms;
+}
+.dropzone p { margin: 0; }
+.dropzone .over { display: none; }
+.dropzone.dragging { border-color: var(--accent); color: var(--fg); }
+.dropzone.dragging .idle { display: none; }
+.dropzone.dragging .over { display: block; }
+/* Once a file is open, the area showing it takes drops instead. */
+body.dragging .drop-target { outline: 1px dashed var(--accent); outline-offset: .75rem; }
+
+/* `file`-style summary of the open file, with its actions on the right:
+   > clip.mov: QuickTime / MOV, 0:10.0, 9.7 MB          [choose file] [clear] */
+.file-line { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .25rem 1rem; margin-bottom: .6rem; }
+.file-line .log { color: var(--fg); overflow-wrap: anywhere; }
+.file-line .log::before { content: "> "; color: var(--accent); }
+.file-actions { display: flex; gap: 1rem; }
 
 /* Output lines, written the way a terminal would report them. */
 .log { margin: 0; color: var(--muted); font: .85rem/1.5 var(--mono); }
@@ -162,5 +188,5 @@ select.term {
 .colophon a::before { content: "→ "; }
 
 @media (prefers-reduced-motion: reduce) {
-  a { transition: none; }
+  a, .dropzone { transition: none; }
 }

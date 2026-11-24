@@ -1,27 +1,6 @@
 /* Layout for the QR decoder; controls are styled by the kit. */
 kbd { font: inherit; color: var(--fg); }
 
-.dropzone {
-  padding: 2.75rem 1rem;
-  border: 1px dashed var(--line);
-  color: var(--muted);
-  font: .9rem/1.6 var(--mono);
-  text-align: center;
-  transition: border-color 120ms, color 120ms;
-}
-.dropzone p { margin: 0; }
-.dropzone .over { display: none; }
-.dropzone.dragging { border-color: var(--accent); color: var(--fg); }
-.dropzone.dragging .idle { display: none; }
-.dropzone.dragging .over { display: block; }
-body.dragging .result { outline: 1px dashed var(--accent); outline-offset: .75rem; }
-
-/* `file`-style line above the image: > name.png: PNG, 1080 × 1080, 84 KB */
-.file-line { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .25rem 1rem; margin-bottom: .6rem; }
-.file-line .log { color: var(--fg); overflow-wrap: anywhere; }
-.file-line .log::before { content: "> "; color: var(--accent); }
-.file-actions { display: flex; gap: 1rem; }
-
 /* The image shows as inline output: square frame, checkerboard behind transparency. */
 .preview { position: relative; display: inline-block; max-width: 100%; margin: 0 0 1rem; vertical-align: top; }
 .preview canvas {
@@ -60,7 +39,4 @@ body.dragging .result { outline: 1px dashed var(--accent); outline-offset: .75re
 @media (max-width: 32rem) {
   .codes li { grid-template-columns: auto minmax(0, 1fr); }
   .codes .actions { grid-column: 2; margin-bottom: .35rem; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .dropzone { transition: none; }
 }

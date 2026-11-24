@@ -6,6 +6,7 @@
   "exports": {
     "./kit.css": "./kit.css",
     "./copy.js": "./copy.js",
+    "./drop.js": "./drop.js",
     "./favicon.svg": "./favicon.svg"
   }
 }
