@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Media converter · doruche's tools</title>
+  <link rel="icon" href="../kit/favicon.svg">
+  <script type="module" src="./src/main.ts"></script>
+</head>
+<body>
+  <a class="back" href="../">..</a>
+  <header class="page-header">
+    <h1>media</h1>
+    <p><strong>Media converter.</strong> Turn a video into MP4, or any audio or video into MP3, M4A, FLAC or WAV. ffmpeg runs in your browser, so the file never leaves it.</p>
+  </header>
+  <main>
+    <input type="file" id="file" accept="audio/*,video/*,.mkv" hidden>
+
+    <section class="dropzone" id="dropzone">
+      <p class="idle">drop an audio or video file here · <button type="button" class="cmd" data-choose>choose file</button></p>
+      <p class="over">release to open</p>
+    </section>
+
+    <section class="drop-target" id="media" hidden>
+      <div class="file-line">
+        <p class="log" id="file-info"></p>
+        <span class="file-actions">
+          <button type="button" class="cmd" data-choose>choose file</button>
+          <button type="button" class="cmd" id="clear">clear</button>
+        </span>
+      </div>
+      <dl class="streams" id="streams"></dl>
+
+      <form class="convert" id="convert" hidden>
+        <div class="row">
+          <label class="flag" for="target">--to</label>
+          <span class="select"><select class="term" id="target"></select></span>
+        </div>
+        <div class="row" id="h264-row">
+          <span></span>
+          <span class="option">
+            <label class="check"><input type="checkbox" id="h264"> --h264</label>
+            <span class="hint">re-encode the video so older players can open it</span>
+          </span>
+        </div>
+
+        <ul class="changes" id="changes" aria-label="What changes"></ul>
+        <div class="command">
+          <code id="command"></code>
+          <button type="button" class="cmd" id="copy-command">copy</button>
+        </div>
+        <button type="submit" class="cmd primary" id="run">convert</button>
+        <button type="button" class="cmd" id="cancel" hidden>cancel</button>
+      </form>
+
+      <section class="job" id="job" hidden>
+        <p class="progress" id="progress"></p>
+        <p class="log" id="result" aria-live="polite"></p>
+        <a class="cmd primary" id="download" hidden>download</a>
+        <details class="ffmpeg-log">
+          <summary>log</summary>
+          <pre id="log"></pre>
+        </details>
+      </section>
+    </section>
+
+    <p class="log" id="status" aria-live="polite"></p>
+  </main>
+  <footer class="colophon"><span>© 2026 doruche · <a class="plain" href="https://github.com/ffmpegwasm/ffmpeg.wasm">ffmpeg.wasm</a> (GPL)</span><a href="https://github.com/doruche/tools/tree/main/tools/media">source</a></footer>
+</body>
+</html>
