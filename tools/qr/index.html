@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>QR decoder · doruche's tools</title>
+  <title>QR codes · doruche's tools</title>
   <link rel="icon" href="../kit/favicon.svg">
   <script type="module" src="./src/main.ts"></script>
 </head>
@@ -11,33 +11,63 @@
   <a class="back" href="../">..</a>
   <header class="page-header">
     <h1>qr</h1>
-    <p><strong>QR decoder.</strong> Drop, paste or choose an image.</p>
+    <p><strong>QR codes.</strong> Read them from an image, or make one from text.</p>
   </header>
+  <nav class="subcommands" aria-label="Mode">
+    <a href="#decode" aria-current="page">decode</a>
+    <a href="#encode">encode</a>
+  </nav>
   <main>
     <input type="file" id="file" accept="image/*" hidden>
 
-    <section class="dropzone" id="dropzone">
-      <p class="idle">drop an image here · paste with <kbd id="paste-key">Ctrl+V</kbd> · <button type="button" class="cmd" data-choose>choose file</button></p>
-      <p class="over">release to decode</p>
-    </section>
+    <div id="decode-view">
+      <section class="dropzone" id="dropzone">
+        <p class="idle">drop an image here · paste with <kbd id="paste-key">Ctrl+V</kbd> · <button type="button" class="cmd" data-choose>choose file</button></p>
+        <p class="over">release to decode</p>
+      </section>
 
-    <section class="result drop-target" id="result" hidden>
-      <div class="file-line">
-        <p class="log" id="file-info"></p>
-        <span class="file-actions">
-          <button type="button" class="cmd" data-choose>choose file</button>
-          <button type="button" class="cmd" id="clear">clear</button>
-        </span>
+      <section class="result drop-target" id="result" hidden>
+        <div class="file-line">
+          <p class="log" id="file-info"></p>
+          <span class="file-actions">
+            <button type="button" class="cmd" data-choose>choose file</button>
+            <button type="button" class="cmd" id="clear">clear</button>
+          </span>
+        </div>
+        <figure class="preview">
+          <canvas id="canvas"></canvas>
+          <svg id="boxes" preserveAspectRatio="none" aria-hidden="true"></svg>
+          <div id="labels" aria-hidden="true"></div>
+        </figure>
+        <ol class="lines codes" id="codes" aria-label="Decoded QR codes"></ol>
+      </section>
+
+      <p class="log" id="status" aria-live="polite"></p>
+    </div>
+
+    <div id="encode-view" hidden>
+      <textarea class="term" id="text" rows="1" placeholder="text or link to encode" spellcheck="false" aria-label="Text to encode"></textarea>
+      <div class="ecc" role="radiogroup" aria-labelledby="ecc-label">
+        <span class="flag" id="ecc-label">--ecc</span>
+        <label class="choice"><input type="radio" name="ecc" value="L"> L</label>
+        <label class="choice"><input type="radio" name="ecc" value="M" checked> M</label>
+        <label class="choice"><input type="radio" name="ecc" value="Q"> Q</label>
+        <label class="choice"><input type="radio" name="ecc" value="H"> H</label>
+        <span class="hint" id="ecc-hint"></span>
       </div>
-      <figure class="preview">
-        <canvas id="canvas"></canvas>
-        <svg id="boxes" preserveAspectRatio="none" aria-hidden="true"></svg>
-        <div id="labels" aria-hidden="true"></div>
-      </figure>
-      <ol class="lines codes" id="codes" aria-label="Decoded QR codes"></ol>
-    </section>
-
-    <p class="log" id="status" aria-live="polite"></p>
+      <div class="symbol" id="symbol" hidden>
+        <figure id="symbol-image" aria-label="QR code"></figure>
+        <div class="symbol-meta">
+          <p class="log" id="symbol-info"></p>
+          <span class="symbol-actions">
+            <button type="button" class="cmd" id="save-svg">save svg</button>
+            <button type="button" class="cmd" id="save-png">save png</button>
+            <button type="button" class="cmd" id="copy-png">copy image</button>
+          </span>
+        </div>
+      </div>
+      <p class="log" id="encode-status" aria-live="polite"></p>
+    </div>
   </main>
   <footer class="colophon"><span>© 2026 doruche</span><a href="https://github.com/doruche/tools/tree/main/tools/qr">source</a></footer>
 </body>

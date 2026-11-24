@@ -1,4 +1,4 @@
-/* Layout for the QR decoder; controls are styled by the kit. */
+/* Layout for the QR page; controls are styled by the kit. */
 kbd { font: inherit; color: var(--fg); }
 
 /* The image shows as inline output: square frame, checkerboard behind transparency. */
@@ -34,7 +34,26 @@ kbd { font: inherit; color: var(--fg); }
 .codes .actions { display: flex; gap: 1rem; }
 .codes:empty { display: none; }
 
-#status { margin-top: .9rem; }
+#status, #encode-status { margin-top: .9rem; }
+
+/* The two subcommands, written as plain words; the open one is underlined in the accent colour. */
+.subcommands { display: flex; gap: 2.5ch; margin: -.75rem 0 1.75rem; font: .95rem/1.5 var(--mono); }
+.subcommands a { color: var(--muted); padding-bottom: .15rem; border-bottom: 2px solid transparent; }
+.subcommands a[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
+
+/* Encode: the text, the error correction flag, then the code with its details beside it. */
+/* One line to start with, growing with the text, so the rule always sits under the last line. */
+#text { display: block; resize: none; overflow-y: auto; max-height: 12rem; line-height: 1.5; }
+.ecc { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem 1.5ch; margin: 1rem 0 1.5rem; }
+.ecc .flag { margin-right: 1ch; }
+.ecc .hint { color: var(--muted); font-size: .85rem; margin-left: 1ch; }
+.symbol { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1rem 1.5rem; }
+.symbol[hidden] { display: none; }
+/* Always black on white, whatever the page colours: that is what scanners read best. */
+#symbol-image { width: min(16rem, 100%); margin: 0; border: 1px solid var(--line); }
+#symbol-image svg { display: block; width: 100%; height: auto; }
+.symbol-meta { display: grid; gap: .5rem; }
+.symbol-actions { display: flex; flex-wrap: wrap; gap: .25rem 1rem; }
 
 @media (max-width: 32rem) {
   .codes li { grid-template-columns: auto minmax(0, 1fr); }

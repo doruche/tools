@@ -4,6 +4,7 @@ import { bindCopy } from '@doruche-tools/kit/copy.js';
 import { bindDrop } from '@doruche-tools/kit/drop.js';
 import wasmUrl from 'zxing-wasm/reader/zxing_reader.wasm?url';
 import type { Code } from './decode.ts';
+import { showEncoder } from './encode-view.ts';
 
 const $ = <T extends Element>(selector: string) => document.querySelector<T>(selector)!;
 const fileInput = $<HTMLInputElement>('#file');
@@ -126,10 +127,36 @@ function clear() {
   report('');
 }
 
-// Choosing, dropping and pasting all lead to open().
-bindDrop({ zone: dropzone, input: fileInput, onFile: open });
+// The page has two subcommands, decode and encode; the address remembers which one is open.
+type Mode = 'decode' | 'encode';
+const views: Record<Mode, HTMLElement> = { decode: $('#decode-view'), encode: $('#encode-view') };
+let mode: Mode = 'decode';
+
+function setMode(next: Mode) {
+  mode = next;
+  for (const [name, view] of Object.entries(views)) view.hidden = name !== next;
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('.subcommands a')) {
+    if (link.hash === `#${next}`) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  }
+  if (next === 'encode') showEncoder();
+}
+const modeFromAddress = (): Mode => (location.hash === '#encode' ? 'encode' : 'decode');
+addEventListener('hashchange', () => setMode(modeFromAddress()));
+setMode(modeFromAddress());
+
+// Choosing, dropping and pasting all lead to open(); an image dropped on the encoder switches to decode.
+bindDrop({
+  zone: dropzone,
+  input: fileInput,
+  onFile: file => {
+    if (mode !== 'decode') location.hash = '#decode';
+    open(file);
+  },
+});
 $('#clear').addEventListener('click', clear);
 document.addEventListener('paste', event => {
+  if (mode !== 'decode') return;
   const item = [...(event.clipboardData?.items ?? [])].find(entry => entry.type.startsWith('image/'));
   const file = item?.getAsFile();
   if (!file) return;

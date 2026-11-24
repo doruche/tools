@@ -1,4 +1,4 @@
 {
-  "name": "QR decoder",
-  "description": "Read every QR code in an image you drop, paste or choose."
+  "name": "QR codes",
+  "description": "Read every QR code in an image, or make one from text."
 }
