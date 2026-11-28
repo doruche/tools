@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SVG viewer · doruche's tools</title>
+  <link rel="icon" href="../kit/favicon.svg">
+  <script type="module" src="./src/main.ts"></script>
+</head>
+<body>
+  <a class="back" href="../">..</a>
+  <header class="page-header">
+    <h1>svg</h1>
+    <p><strong>SVG viewer.</strong> Open a file or paste its source to preview it, see what is inside, and export it.</p>
+  </header>
+  <main>
+    <input type="file" id="file" accept=".svg,.svgz,image/svg+xml" hidden>
+
+    <section class="dropzone" id="dropzone">
+      <p class="idle">drop an SVG here · paste a file or its source with <kbd class="paste-key">Ctrl+V</kbd> · <button type="button" class="cmd" data-choose>choose file</button></p>
+      <p class="over">release to open</p>
+    </section>
+
+    <section class="result drop-target" id="result" hidden>
+      <div class="file-line">
+        <p class="log" id="file-info"></p>
+        <span class="file-actions">
+          <button type="button" class="cmd" data-choose>choose file</button>
+          <button type="button" class="cmd" id="clear">clear</button>
+        </span>
+      </div>
+
+      <div class="stage wide" id="stage" data-bg="checker" tabindex="0" aria-label="Preview. Plus and minus zoom, arrow keys move, 0 fits the image, 1 shows it at actual size." aria-describedby="hint">
+        <img id="image" alt="">
+      </div>
+      <div class="view-bar">
+        <div class="bg" role="radiogroup" aria-labelledby="bg-label">
+          <span class="flag" id="bg-label">--bg</span>
+          <label class="choice"><input type="radio" name="bg" value="checker" checked> checker</label>
+          <label class="choice"><input type="radio" name="bg" value="light"> light</label>
+          <label class="choice"><input type="radio" name="bg" value="dark"> dark</label>
+        </div>
+        <div class="zoom">
+          <button type="button" class="cmd" id="fit">fit</button>
+          <button type="button" class="cmd" id="actual">1:1</button>
+          <button type="button" class="cmd" id="zoom-out" aria-label="Zoom out">−</button>
+          <output class="log" id="zoom-level" aria-live="polite">100%</output>
+          <button type="button" class="cmd" id="zoom-in" aria-label="Zoom in">+</button>
+        </div>
+      </div>
+      <p class="log hint" id="hint"><span class="fine">drag to move · <kbd class="mod-key">Ctrl</kbd>-scroll or pinch to zoom · double-click to fit or show at 1:1</span><span class="coarse">drag to move · zoom with − and +</span></p>
+
+      <dl class="facts" id="facts"></dl>
+      <ul class="warnings" id="warnings" aria-label="Warnings"></ul>
+
+      <div class="export">
+        <div class="scale" role="radiogroup" aria-labelledby="scale-label">
+          <span class="flag" id="scale-label">--scale</span>
+          <label class="choice"><input type="radio" name="scale" value="1"> 1x</label>
+          <label class="choice"><input type="radio" name="scale" value="2" checked> 2x</label>
+          <label class="choice"><input type="radio" name="scale" value="4"> 4x</label>
+          <label class="choice"><input type="radio" name="scale" value="8"> 8x</label>
+          <span class="hint" id="scale-hint"></span>
+        </div>
+        <div class="export-actions">
+          <button type="button" class="cmd" id="save-png">save png</button>
+          <button type="button" class="cmd" id="copy-png">copy image</button>
+          <button type="button" class="cmd" id="save-svg">save svg</button>
+          <button type="button" class="cmd" id="copy-uri">copy data uri</button>
+          <button type="button" class="cmd" id="copy-base64">copy base64</button>
+        </div>
+      </div>
+
+      <details class="source" id="source">
+        <summary>source <span class="count" id="source-count"></span></summary>
+        <div class="source-bar">
+          <label class="check"><input type="checkbox" id="pretty"> --pretty</label>
+          <button type="button" class="cmd" id="copy-source">copy</button>
+        </div>
+        <ol class="lines code" id="code" aria-label="Source"></ol>
+      </details>
+    </section>
+
+    <p class="log" id="status" aria-live="polite"></p>
+  </main>
+  <footer class="colophon"><span>© 2026 doruche</span><a href="https://github.com/doruche/tools/tree/main/tools/svg">source</a></footer>
+</body>
+</html>

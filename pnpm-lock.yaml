@@ -229,6 +229,25 @@ importers:
         specifier: ^8.3.8
         version: 8.3.8(@types/node@26.6.6)
 
+  tools/svg:
+    dependencies:
+      '@doruche-tools/kit':
+        specifier: workspace:*
+        version: link:../../packages/kit
+    devDependencies:
+      '@types/node':
+        specifier: ^26.6.6
+        version: 26.6.6
+      '@xmldom/xmldom':
+        specifier: ^0.9.12
+        version: 0.9.12
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+      vite:
+        specifier: ^8.3.8
+        version: 8.3.8(@types/node@26.6.6)
+
   tools/uuid:
     dependencies:
       '@doruche-tools/kit':
@@ -513,6 +532,10 @@ packages:
     engines: {node: '>=16.20.0'}
     cpu: [x64]
     os: [win32]
+
+  '@xmldom/xmldom@0.9.12':
+    resolution: {integrity: sha512-5AXjrcMClTryPe9LgZrygpB1lj7s0S9E0+W+AHaVKAVyHanafK86iPSvG5xHVSp/jC+VH1UXu0TAEmY279xH7A==}
+    engines: {node: '>=14.6'}
 
   chokidar@6.0.0:
     resolution: {integrity: sha512-Ec2Z7wpcKBiMpR7DxteoqS/sq5G5d2A4fpxzPv6+fD7xNNdrTghn7L11YwV5EN1B3i72Erc3XVT5FkWIDx90+A==}
@@ -886,6 +909,8 @@ snapshots:
 
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
+
+  '@xmldom/xmldom@0.9.12': {}
 
   chokidar@6.0.0:
     dependencies:
