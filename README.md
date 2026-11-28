@@ -38,6 +38,8 @@ Either way, the published tool needs an `index.html` and must use relative paths
 - A tool without a build step links it with relative paths, such as `../kit/kit.css` and `../kit/copy.js`.
 - A tool with a build step depends on `@doruche-tools/kit` and bundles it, so it does not rely on `/kit/` at all.
 
+Every new tool is also feedback on the kit. When a tool needs something the kit lacks, ask whether the need belongs to that tool or to tools in general. A general need goes into the kit, in its own commit, as an opt-in addition that leaves existing tools looking the same. Anything else stays in the tool until a second tool needs it.
+
 The home page and the 404 page live in `site/`.
 
 ## Deployment
