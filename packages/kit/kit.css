@@ -151,6 +151,9 @@ select.term {
 /* Once a file is open, the area showing it takes drops instead. */
 body.dragging .drop-target { outline: 1px dashed var(--accent); outline-offset: .75rem; }
 
+/* Checkerboard behind images, so transparent parts show as transparent. */
+.checker { background: repeating-conic-gradient(color-mix(in srgb, var(--line) 55%, transparent) 0 25%, transparent 0 50%) 0 0 / 16px 16px; }
+
 /* `file`-style summary of the open file, with its actions on the right:
    > clip.mov: QuickTime / MOV, 0:10.0, 9.7 MB          [choose file] [clear] */
 .file-line { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .25rem 1rem; margin-bottom: .6rem; }

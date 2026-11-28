@@ -246,7 +246,10 @@ $('#clear').addEventListener('click', clear);
 
 // Viewing.
 for (const radio of document.querySelectorAll<HTMLInputElement>('[name=bg]')) {
-  radio.addEventListener('change', () => { stageBox.dataset.bg = radio.value; });
+  radio.addEventListener('change', () => {
+    stageBox.dataset.bg = radio.value;
+    stageBox.classList.toggle('checker', radio.value === 'checker');
+  });
 }
 $('#fit').addEventListener('click', () => stage.fit());
 $('#actual').addEventListener('click', () => stage.actual());

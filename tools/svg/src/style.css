@@ -14,7 +14,7 @@ kbd { font: inherit; color: var(--fg); }
 }
 .stage.panning { cursor: grabbing; }
 .stage img { position: absolute; top: 0; left: 0; display: block; max-width: none; pointer-events: none; }
-.stage[data-bg="checker"] { background: repeating-conic-gradient(color-mix(in srgb, var(--line) 55%, transparent) 0 25%, transparent 0 50%) 0 0 / 16px 16px; }
+/* The checker background comes from the kit's .checker class, which the script turns on and off. */
 .stage[data-bg="light"] { background: #fff; }
 .stage[data-bg="dark"] { background: #0b0c0d; }
 

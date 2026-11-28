@@ -33,7 +33,7 @@ Either way, the published tool needs an `index.html` and must use relative paths
 
 ## Shared kit
 
-`packages/kit` holds an optional shared look: colours, command-line styled controls (`.term`, `.flag`, `.check`, `.choice`, `.cmd`, `.log`, `.lines`), a drop zone and `file`-style summary line for tools that open a file (`.dropzone`, `.file-line`), a `.wide` block that grows past the page column for previews and canvases, a favicon, and two helpers: `bindCopy` in `copy.js` and `bindDrop` in `drop.js`. It is published at `/kit/`.
+`packages/kit` holds an optional shared look: colours, command-line styled controls (`.term`, `.flag`, `.check`, `.choice`, `.cmd`, `.log`, `.lines`), a drop zone and `file`-style summary line for tools that open a file (`.dropzone`, `.file-line`), a `.wide` block that grows past the page column for previews and canvases, a `.checker` background for showing transparency, a favicon, and two helpers: `bindCopy` in `copy.js` and `bindDrop` in `drop.js`. It is published at `/kit/`.
 
 - A tool without a build step links it with relative paths, such as `../kit/kit.css` and `../kit/copy.js`.
 - A tool with a build step depends on `@doruche-tools/kit` and bundles it, so it does not rely on `/kit/` at all.
