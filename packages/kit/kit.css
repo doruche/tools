@@ -14,6 +14,7 @@
   --danger: #b42318;
   --sans: system-ui, -apple-system, "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --gutter: clamp(1.25rem, 5vw, 2rem);
   font: 1rem/1.6 var(--sans);
   color: var(--fg);
   background: var(--bg);
@@ -30,10 +31,22 @@
   }
 }
 
+/*
+ * Pages read as one 44rem column. Narrow screens are those up to 32rem: tools
+ * rearrange their layout with `@media (max-width: 32rem)`, which cannot read a
+ * custom property, so the number is repeated there.
+ */
 body {
   max-width: 44rem;
   margin: 0 auto;
-  padding: clamp(1.5rem, 5vw, 3rem) clamp(1.25rem, 5vw, 2rem) 3rem;
+  padding: clamp(1.5rem, 5vw, 3rem) var(--gutter) 3rem;
+}
+/* A block that may grow past the column, up to 72rem, staying centred on the page. */
+.wide {
+  --wide: max(100%, min(72rem, 100vw - 2 * var(--gutter)));
+  width: var(--wide);
+  margin-inline: calc((100% - var(--wide)) / 2);
+  box-sizing: border-box;
 }
 ::selection { background: var(--accent); color: var(--on-accent); }
 a { color: inherit; text-decoration: none; transition: color 120ms; }
